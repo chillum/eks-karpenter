@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-graviton
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workload-graviton
+  template:
+    metadata:
+      labels:
+        app: workload-graviton
+    spec:
+      nodeSelector:
+        karpenter.sh/nodepool: default
+        kubernetes.io/arch: arm64
+      containers:
+        - name: pause
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-intel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workload-intel
+  template:
+    metadata:
+      labels:
+        app: workload-intel
+    spec:
+      nodeSelector:
+        karpenter.sh/nodepool: default
+        kubernetes.io/arch: amd64
+      containers:
+        - name: pause
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          imagePullPolicy: Always
