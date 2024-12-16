@@ -79,6 +79,8 @@ module "karpenter" {
 
   enable_pod_identity             = true
   create_pod_identity_association = true
+
+  depends_on = [module.eks]
 }
 
 resource "helm_release" "karpenter" {
